@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --require babel-polyfill --compilers js:babel-register",
-    "build-css": "node-sass src/ -o src/",
-    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
-    "scss-compile": "node-sass -rw stylesheets/styles.scss -o stylesheets/styles.css"
+    "scss-compile": "node-sass -rw stylesheets/styles.scss -o stylesheets/styles.css",
+    "build": "webpack"
   },
   "devDependencies": {
     "babel-polyfill": "^6.23.0",
