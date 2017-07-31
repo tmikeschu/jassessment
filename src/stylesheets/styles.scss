@@ -68,10 +68,7 @@ main {
       }
     }
   }
-  .word-count {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
+  .word-data {
     flex: 2;
     background-color: #ddd;
     .top-word {

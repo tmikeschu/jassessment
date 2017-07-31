@@ -95,10 +95,7 @@ main {
         transition: 300ms;
         cursor: pointer;
         background-color: #4B0082; }
-  main .word-count {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
+  main .word-data {
     flex: 2;
     background-color: #ddd; }
     main .word-data .top-word {
