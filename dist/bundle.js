@@ -65,64 +65,12 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__functions__ = __webpack_require__(1);
-
+/***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", () => {
-  const textSubmitButton = document.querySelector(".text-submission button")
-  const text = document.querySelector(".text-submission textarea")
-
-  textSubmitButton.addEventListener("click", handleTextSubmit(text))
-  text.addEventListener("keyup", Object(__WEBPACK_IMPORTED_MODULE_0__functions__["a" /* checkEnter */])(handleTextSubmit, text, 10))
+  // have fun!
 })
 
-
-function handleTextSubmit (text) {
-  return event => {
-    const wordCount = Object(__WEBPACK_IMPORTED_MODULE_0__functions__["b" /* wordCountFor */])(text.value)
-    text.value = ""
-    const words = Object.keys(wordCount)
-    const presenter = document.querySelector(".word-count")
-    words.forEach(word => {
-      const para = document.createElement("p")
-      para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
-      para.style.fontSize = `${wordCount[word]}em`
-      para.tabIndex = 0
-      presenter.append(para)
-    })
-  }
-}
-
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = checkEnter;
-/* harmony export (immutable) */ __webpack_exports__["b"] = wordCountFor;
-function checkEnter (func, data) {
-  return event => {
-    if (event.keyCode === 13) {
-      func(data)(event)
-      return false
-    }
-  }
-}
-
-function wordCountFor (text) {
-  const nonAlpha = /[^a-z]/
-  return text.split(nonAlpha).filter(x => x)
-    .reduce((acc, el) => {
-      acc[el] = (acc[el] || 0) + 1
-      return acc
-    }, {})
-}
 
 
 /***/ })
