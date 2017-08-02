@@ -24,8 +24,9 @@ watch for changes in your code.
 
 ## Objectives
 
-* All JavaScript functions are backed by unit tests
-* 
+* All JavaScript functions are backed by unit tests.
+* You do not need to (and should not attempt to) add any HTML or CSS. Focus on
+  the JavaScript.
 
 ### 1
 
