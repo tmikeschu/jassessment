@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --require babel-polyfill --compilers js:babel-register",
     "scss-compile": "node-sass -rw stylesheets/styles.scss -o stylesheets/styles.css",
-    "build": "webpack"
+    "build": "webpack --watch"
   },
   "devDependencies": {
     "babel-polyfill": "^6.23.0",

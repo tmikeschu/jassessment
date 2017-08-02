@@ -2,6 +2,26 @@
 
 ---
 
+## Environment Setup
+
+Clone and navigate to the directory in your preferred way, or
+
+```shell
+git clone git@github.com:tmikeschu/jassessment.git
+cd jassessment
+```
+
+then
+
+```shell
+npm install
+npm run build
+open dist/index.html
+```
+
+Make sure to keep `npm run build` running in a separate terminal session to
+watch for changes in your code.
+
 ## Objectives
 
 * All JavaScript functions are backed by unit tests
@@ -29,4 +49,12 @@ As a user who has gone through process #1 or #2
 I can tab through every element on the page
 And there should be visibly hidden information
 that tells me "_ times" the word appears in the text.
+
+### 4
+
+As a user,
+when I visit WordWatch
+based on the Word Watch API database
+I should see the top used word and its count in the "Top Word: " heading.
+e.g., "Top Word: cibatta (22)"
 
