@@ -100,11 +100,25 @@ main {
     flex-wrap: wrap;
     align-items: baseline;
     flex: 2;
-    background-color: #ddd;
-    padding: 5px;
-    overflow-y: scroll;
-    height: 98vh; }
-    main .word-count p {
-      margin-right: 10px; }
-      main .word-count p span {
-        display: none; }
+    background-color: #ddd; }
+    main .word-data .top-word {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 2px solid #4B0082;
+      height: 8vh;
+      color: #FA8072;
+      padding: 10px; }
+    main .word-data .word-count {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      padding: 5px;
+      overflow-y: scroll;
+      height: 90vh; }
+      main .word-data .word-count p {
+        margin-right: 10px; }
+        main .word-data .word-count p span {
+          display: none; }
+
+/*# sourceMappingURL=styles.css.map */

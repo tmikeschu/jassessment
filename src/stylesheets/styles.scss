@@ -74,13 +74,27 @@ main {
     align-items: baseline;
     flex: 2;
     background-color: #ddd;
-    padding: 5px;
-    overflow-y: scroll;
-    height: 98vh;
-    p {
-      margin-right: 10px;
-      span {
-        display: none;
+    .top-word {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 2px solid $indigo;
+      height: 8vh;
+      color: $salmon;
+      padding: 10px;
+    }
+    .word-count {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      padding: 5px;
+      overflow-y: scroll;
+      height: 90vh;
+      p {
+        margin-right: 10px;
+        span {
+          display: none;
+        }
       }
     }
   }
