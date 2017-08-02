@@ -1,11 +1,12 @@
-import  { checkEnter, wordCountFor } from "./functions"
+import axios from "axios"
 
 document.addEventListener("DOMContentLoaded", () => {
   const textSubmitButton = document.querySelector(".text-submission button")
   const text = document.querySelector(".text-submission textarea")
 
   textSubmitButton.addEventListener("click", handleTextSubmit(text))
-  text.addEventListener("keyup", textEnter(text))
+  text.addEventListener("keyup", checkEnter(handleTextSubmit, text, 10))
+  getTopWord(axios)
 })
 
 function textEnter (text) {
@@ -41,3 +42,21 @@ function wordCountFor (text) {
       return acc
     }, {})
 }
+
+async function getTopWord (axios) {
+  const url = "https://wordwatch-api.herokuapp.com/api/v1/top_word"
+  try {
+    const response = await axios.get(url)
+    addTopWord(response.data.word)
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+function addTopWord (wordAndCount) {
+  const heading = document.querySelector(".top-word h3")
+  const word = Object.keys(wordAndCount)[0]
+  const formattedWordCount = `${word} (${wordAndCount[word]})`
+  heading.innerHTML = `Top Word: ${formattedWordCount}`
+}
+
