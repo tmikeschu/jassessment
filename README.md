@@ -25,6 +25,7 @@ watch for changes in your code.
 ## Objectives
 
 * All JavaScript functions are backed by unit tests
+* 
 
 ### 1
 
@@ -57,4 +58,10 @@ when I visit WordWatch
 based on the Word Watch API database
 I should see the top used word and its count in the "Top Word: " heading.
 e.g., "Top Word: cibatta (22)"
+
+### 5
+
+For stories 1 and 2,
+each word should be sent via POST request to the Word Watch API. See the
+[repo](https://github.com/tmikeschu/wordwatch_api) for details.
 
