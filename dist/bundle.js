@@ -73,45 +73,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 document.addEventListener("DOMContentLoaded", () => {
-<<<<<<< HEAD
-  // have fun!
   // have fun!
 })
 
-=======
-  const textSubmitButton = document.querySelector(".text-submission button")
-  const text = document.querySelector(".text-submission textarea")
-
-  textSubmitButton.addEventListener("click", handleTextSubmit(text))
-  text.addEventListener("keyup", Object(__WEBPACK_IMPORTED_MODULE_0__functions__["a" /* checkEnter */])(handleTextSubmit, text, 10))
-})
-
-function textEnter (text) {
-  return event => {
-    if (event.keyCode === 13) {
-      handleTextSubmit(text)(event)
-      return false
-    }
-  }
-}
-
-function handleTextSubmit (text) {
-  return event => {
-    const wordCount = Object(__WEBPACK_IMPORTED_MODULE_0__functions__["b" /* wordCountFor */])(text.value)
-    text.value = ""
-    const words = Object.keys(wordCount)
-    const presenter = document.querySelector(".word-count")
-    words.forEach(word => {
-      const para = document.createElement("p")
-      para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
-      para.style.fontSize = `${wordCount[word]}em`
-      para.tabIndex = 0
-      presenter.append(para)
-    })
-  }
-}
-
->>>>>>> 3a04634... Fix bugs
 
 
 /***/ }),
@@ -119,8 +83,8 @@ function handleTextSubmit (text) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = checkEnter;
-/* harmony export (immutable) */ __webpack_exports__["b"] = wordCountFor;
+/* unused harmony export checkEnter */
+/* unused harmony export wordCountFor */
 function checkEnter (handleTextSubmit, text) {
   return event => {
     if (event.keyCode === 13) {
