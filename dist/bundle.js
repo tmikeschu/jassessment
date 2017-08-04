@@ -946,58 +946,53 @@ module.exports = __webpack_require__(29);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["handleTextSubmit"] = handleTextSubmit;
+/* harmony export (immutable) */ __webpack_exports__["getTopWord"] = getTopWord;
+/* harmony export (immutable) */ __webpack_exports__["addTopWord"] = addTopWord;
+/* harmony export (immutable) */ __webpack_exports__["checkEnter"] = checkEnter;
+/* harmony export (immutable) */ __webpack_exports__["wordCountFor"] = wordCountFor;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const textSubmitButton = document.querySelector(".text-submission button")
-  const text = document.querySelector(".text-submission textarea")
+  const textArea = document.querySelector(".text-submission textarea")
 
-  textSubmitButton.addEventListener("click", handleTextSubmit(text))
-  text.addEventListener("keyup", checkEnter(handleTextSubmit, text, 10))
-  getTopWord(__WEBPACK_IMPORTED_MODULE_0_axios___default.a)
+  textSubmitButton.addEventListener("click", handleTextSubmit(textArea))
+  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, 10))
+  const word = await getTopWord(__WEBPACK_IMPORTED_MODULE_0_axios___default.a)
+  addTopWord(word)
 })
 
-function textEnter (text) {
+function handleTextSubmit (textArea) {
   return event => {
-    if (event.keyCode === 13) {
-      handleTextSubmit(text)(event)
-      return false
-    }
-  }
-}
-
-function handleTextSubmit (text) {
-  return event => {
-    const wordCount = wordCountFor(text.value)
-    text.value = ""
-    const words = Object.keys(wordCount)
+    const wordCount = wordCountFor(textArea.value)
+    textArea.value = ""
     const presenter = document.querySelector(".word-count")
+    clearChildren(presenter)
+    const words = Object.keys(wordCount)
     words.forEach(word => {
       const para = document.createElement("p")
       para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
       para.style.fontSize = `${wordCount[word]}em`
       para.tabIndex = 0
-      presenter.append(para)
+      presenter.appendChild(para)
     })
   }
 }
 
-function wordCountFor (text) {
-  const nonAlpha = /[^a-z]/
-  return text.split(nonAlpha).filter(x => x)
-    .reduce((acc, el) => {
-      acc[el] = (acc[el] || 0) + 1
-      return acc
-    }, {})
+function clearChildren(node) {
+  while (node.hasChildNodes()) {
+    node.removeChild(node.lastChild)
+  }
 }
 
 async function getTopWord (axios) {
   const url = "https://wordwatch-api.herokuapp.com/api/v1/top_word"
   try {
     const response = await axios.get(url)
-    addTopWord(response.data.word)
+    return response.data.word
   } catch(error) {
     console.error(error)
   }
@@ -1008,6 +1003,24 @@ function addTopWord (wordAndCount) {
   const word = Object.keys(wordAndCount)[0]
   const formattedWordCount = `${word} (${wordAndCount[word]})`
   heading.innerHTML = `Top Word: ${formattedWordCount}`
+}
+
+function checkEnter (handleTextSubmit, text) {
+  return event => {
+    if (event.keyCode === 13) {
+      handleTextSubmit(text)(event)
+      return false
+    }
+  }
+}
+
+function wordCountFor (text) {
+  const markers = /[^a-z']/i
+  return text.split(markers).filter(x => x)
+    .reduce((acc, el) => {
+      acc[el] = (acc[el] || 0) + 1
+      return acc
+    }, {})
 }
 
 
