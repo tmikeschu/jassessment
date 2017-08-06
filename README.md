@@ -41,6 +41,7 @@ npm test
 
 * All JavaScript functions are backed by unit tests.
 * You do not need to (and should not attempt to) add any HTML or CSS. Focus on the JavaScript.
+* You can add jQuery for DOM manipulation if you want, but you'll have to take care of the setup.
 
 ### 1
 
