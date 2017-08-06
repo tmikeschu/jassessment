@@ -10,16 +10,17 @@
     "start": "asdf"
   },
   "devDependencies": {
+    "asdf": "^1.1.4",
     "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "babel-register": "^6.24.1",
     "chai": "^4.0.2",
+    "jsdom": "^11.1.0",
     "mocha": "^3.4.2",
     "mocha-webpack": "^0.7.0",
     "webpack": "^3.4.1",
-    "webpack-node-externals": "^1.6.0",
-    "jsdom": "^11.1.0"
+    "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
     "node-sass": "^4.5.3"
