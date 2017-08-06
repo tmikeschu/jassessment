@@ -40,6 +40,7 @@ export async function getTopWord (axios) {
     return response.data.word
   } catch(error) {
     console.error(error)
+    return {}
   }
 }
 
