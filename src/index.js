@@ -22,6 +22,7 @@ export function handleTextSubmit (textArea) {
       para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
       para.style.fontSize = `${wordCount[word]}em`
       para.tabIndex = 0
+      para.name = word
       presenter.appendChild(para)
     })
   }
@@ -64,7 +65,7 @@ export function wordCountFor (text) {
   const markers = /[^a-z']/i
   return text.split(markers).filter(x => x)
     .reduce((acc, el) => {
-      acc[el] = (acc[el] || 0) + 1
+      acc[el.toLowerCase()] = (acc[el.toLowerCase()] || 0) + 1
       return acc
     }, {})
 }
