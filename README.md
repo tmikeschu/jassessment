@@ -6,8 +6,6 @@
 
 Clone and navigate to the directory in your preferred way, or
 
-* Download the latest [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) for a Mac-64 environment.
-
 ```shell
 git clone git@github.com:tmikeschu/jassessment.git
 cd jassessment
@@ -15,20 +13,30 @@ cd jassessment
 
 then
 
+Get those dependencies:
+
 ```shell
 npm install
+```
+
+Open a dedicated terminal session to watch for changes in your JS:
+
+```shell
 npm run build
+```
+
+Open your app on a localhost server:
+
+```shell
 npm start
 ```
 
-Make sure to keep `npm run build` running in a separate terminal session to
-watch for changes in your code.
+*Note* make sure to keep both `npm run build` and `npm start` running during your development.
 
 ## Objectives
 
 * All JavaScript functions are backed by unit tests.
-* You do not need to (and should not attempt to) add any HTML or CSS. Focus on
-  the JavaScript.
+* You do not need to (and should not attempt to) add any HTML or CSS. Focus on the JavaScript.
 
 ### 1
 
@@ -53,11 +61,17 @@ As a user,
 when I visit Word Watch  
 I should see the top used word and its count (based on the Word Watch API database)  
 in the "Top Word: " heading.  
-e.g., "Top Word: cibatta (22)"  
+e.g., "Top Word: ciabatta (22)"  
 
 ### 4
 
 For stories 1 and 2,
 each word should be sent via POST request to the Word Watch API. See the
 [repo](https://github.com/tmikeschu/wordwatch_api) for details.
+
+### 5
+For stories 1 and 2,
+words should be compared case insensitive.
+For example, ciabatta and Ciabatta and CIABATTA all count toward the count of ciabatta.
+
 
