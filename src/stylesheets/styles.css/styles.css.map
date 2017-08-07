@@ -4,8 +4,4 @@
 "sources": ["../_reset.scss","../styles.scss"],
 "names": [],
 "file": "styles.css"
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> Fix bugs
