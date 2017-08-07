@@ -60,17 +60,13 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/******/ ({
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__functions__ = __webpack_require__(1);
-
+/***/ 8:
+/***/ (function(module, exports) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // have fun!
@@ -78,31 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export checkEnter */
-/* unused harmony export wordCountFor */
-function checkEnter (handleTextSubmit, text) {
-  return event => {
-    if (event.keyCode === 13) {
-      handleTextSubmit(text)(event)
-      return false
-    }
-  }
-}
-
-function wordCountFor (text) {
-  const markers = /[^a-z']/i
-  return text.split(markers).filter(x => x)
-    .reduce((acc, el) => {
-      acc[el] = (acc[el] || 0) + 1
-      return acc
-    }, {})
-}
-
-
 /***/ })
-/******/ ]);
+
+/******/ });
