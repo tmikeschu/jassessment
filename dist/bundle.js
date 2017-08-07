@@ -947,6 +947,10 @@ module.exports = __webpack_require__(29);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["handleTextSubmit"] = handleTextSubmit;
+/* harmony export (immutable) */ __webpack_exports__["processWordCount"] = processWordCount;
+/* harmony export (immutable) */ __webpack_exports__["clearWords"] = clearWords;
+/* harmony export (immutable) */ __webpack_exports__["addWords"] = addWords;
+/* harmony export (immutable) */ __webpack_exports__["addWord"] = addWord;
 /* harmony export (immutable) */ __webpack_exports__["getTopWord"] = getTopWord;
 /* harmony export (immutable) */ __webpack_exports__["addTopWord"] = addTopWord;
 /* harmony export (immutable) */ __webpack_exports__["checkEnter"] = checkEnter;
@@ -969,22 +973,35 @@ function handleTextSubmit (textArea) {
   return event => {
     const wordCount = wordCountFor(textArea.value)
     textArea.value = ""
-    const presenter = document.querySelector(".word-count")
-    clearChildren(presenter)
-    const words = Object.keys(wordCount)
-    words.forEach(word => {
-      const para = document.createElement("p")
-      para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
-      para.style.fontSize = `${wordCount[word]}em`
-      para.tabIndex = 0
-      presenter.appendChild(para)
-    })
+    processWordCount(wordCount)
   }
 }
 
-function clearChildren(node) {
+function processWordCount (wordCount) {
+  const container = document.querySelector(".word-count")
+  clearWords(container)
+  addWords(container, wordCount)
+}
+
+function clearWords(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.lastChild)
+  }
+}
+
+function addWords(container, wordCount) {
+  const words = Object.keys(wordCount)
+  words.forEach(addWord(container, wordCount))
+}
+
+function addWord(container, wordCount) {
+  return word => {
+    const para = document.createElement("p")
+    para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
+    para.style.fontSize = `${wordCount[word]}em`
+    para.tabIndex = 0
+    para.name = word
+    container.appendChild(para)
   }
 }
 
@@ -1019,7 +1036,7 @@ function wordCountFor (text) {
   const markers = /[^a-z']/i
   return text.split(markers).filter(x => x)
     .reduce((acc, el) => {
-      acc[el] = (acc[el] || 0) + 1
+      acc[el.toLowerCase()] = (acc[el.toLowerCase()] || 0) + 1
       return acc
     }, {})
 }

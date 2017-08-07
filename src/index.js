@@ -14,23 +14,35 @@ export function handleTextSubmit (textArea) {
   return event => {
     const wordCount = wordCountFor(textArea.value)
     textArea.value = ""
-    const presenter = document.querySelector(".word-count")
-    clearChildren(presenter)
-    const words = Object.keys(wordCount)
-    words.forEach(word => {
-      const para = document.createElement("p")
-      para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
-      para.style.fontSize = `${wordCount[word]}em`
-      para.tabIndex = 0
-      para.name = word
-      presenter.appendChild(para)
-    })
+    processWordCount(wordCount)
   }
 }
 
-function clearChildren(node) {
+export function processWordCount (wordCount) {
+  const container = document.querySelector(".word-count")
+  clearWords(container)
+  addWords(container, wordCount)
+}
+
+export function clearWords(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.lastChild)
+  }
+}
+
+export function addWords(container, wordCount) {
+  const words = Object.keys(wordCount)
+  words.forEach(addWord(container, wordCount))
+}
+
+export function addWord(container, wordCount) {
+  return word => {
+    const para = document.createElement("p")
+    para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
+    para.style.fontSize = `${wordCount[word]}em`
+    para.tabIndex = 0
+    para.name = word
+    container.appendChild(para)
   }
 }
 
