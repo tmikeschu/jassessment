@@ -4,17 +4,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   const textSubmitButton = document.querySelector(".text-submission button")
   const textArea = document.querySelector(".text-submission textarea")
 
-  textSubmitButton.addEventListener("click", handleTextSubmit(textArea))
-  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, 10))
+  textSubmitButton.addEventListener("click", handleTextSubmit(textArea, processWordCount))
+  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, processWordCount))
   const word = await getTopWord(axios)
   addTopWord(word)
 })
 
-export function handleTextSubmit (textArea) {
+export function handleTextSubmit (textArea, callback) {
   return event => {
     const wordCount = wordCountFor(textArea.value)
     textArea.value = ""
-    processWordCount(wordCount)
+    callback(wordCount)
   }
 }
 
@@ -64,10 +64,10 @@ export function addTopWord (wordAndCount) {
   heading.innerHTML = `Top Word: ${formattedWordCount}`
 }
 
-export function checkEnter (handleTextSubmit, text) {
+export function checkEnter (handleTextSubmit, text, callback) {
   return event => {
     if (event.keyCode === 13) {
-      handleTextSubmit(text)(event)
+      handleTextSubmit(text, callback)(event)
       return false
     }
   }

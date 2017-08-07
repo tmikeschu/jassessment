@@ -4,7 +4,10 @@ import * as fns from "../index"
 
 describe("Word watch functions", () => {
   describe("#handleTextSubmit", () => {
-    const { handleTextSubmit } = fns
+    const {
+      handleTextSubmit,
+      processWordCount
+    } = fns
     const text = { value: "hello you me me you you" }
     const event = {}
     const wordCountArea = document.querySelector(".word-count")
@@ -13,6 +16,14 @@ describe("Word watch functions", () => {
       text.value = "hello you me me you you"
     })
 
+    it.only("invokes a callback", () => {
+      const spy = sinon.spy()
+      handleTextSubmit(text, spy)(event)
+      expect(spy.calledOnce).to.be.true
+    })
+  })
+
+  describe("#processWordCount"), () => {
     it("adds children to the .word-count parent", () => {
       expect(wordCountArea.children.length).to.equal(0)
       handleTextSubmit(text)(event)
