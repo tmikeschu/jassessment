@@ -14,14 +14,14 @@ export function handleTextSubmit (textArea, callback) {
   return event => {
     const wordCount = wordCountFor(textArea.value)
     textArea.value = ""
-    callback(wordCount)
+    callback(wordCount, clearWords, addWords)
   }
 }
 
-export function processWordCount (wordCount) {
+export function processWordCount (wordCount, callback1, callback2) {
   const container = document.querySelector(".word-count")
-  clearWords(container)
-  addWords(container, wordCount)
+  callback1(container)
+  callback2(container, wordCount)
 }
 
 export function clearWords(node) {

@@ -3,11 +3,11 @@ import sinon from "sinon"
 import * as fns from "../index"
 
 describe("Word watch functions", () => {
+  const {
+    handleTextSubmit,
+    processWordCount
+  } = fns
   describe("#handleTextSubmit", () => {
-    const {
-      handleTextSubmit,
-      processWordCount
-    } = fns
     const text = { value: "hello you me me you you" }
     const event = {}
     const wordCountArea = document.querySelector(".word-count")
@@ -16,14 +16,21 @@ describe("Word watch functions", () => {
       text.value = "hello you me me you you"
     })
 
-    it.only("invokes a callback", () => {
+    it("invokes a callback", () => {
       const spy = sinon.spy()
       handleTextSubmit(text, spy)(event)
       expect(spy.calledOnce).to.be.true
     })
   })
 
-  describe("#processWordCount"), () => {
+  describe("#processWordCount", () => {
+    it.only("invokes two callbacks", () => {
+      const spy = sinon.spy()
+      const wordCount = {}
+      processWordCount(wordCount, spy, spy)
+      expect(spy.calledTwice).to.be.true
+    })
+
     it("adds children to the .word-count parent", () => {
       expect(wordCountArea.children.length).to.equal(0)
       handleTextSubmit(text)(event)
