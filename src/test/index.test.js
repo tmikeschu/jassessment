@@ -7,30 +7,56 @@ describe("Word watch functions", () => {
     handleTextSubmit,
     processWordCount
   } = fns
-  describe("#handleTextSubmit", () => {
-    const text = { value: "hello you me me you you" }
-    const event = {}
-    const wordCountArea = document.querySelector(".word-count")
 
-    afterEach(() => {
-      text.value = "hello you me me you you"
-    })
+  const text = { value: "hello you me me you you" }
+  const event = {}
+  const wordCountArea = document.querySelector(".word-count")
+
+  afterEach(() => {
+    text.value = "hello you me me you you"
+  })
+
+  describe.only("#handleTextSubmit", () => {
+    const spy = sinon.spy()
+    handleTextSubmit(text, spy)(event)
 
     it("invokes a callback", () => {
-      const spy = sinon.spy()
-      handleTextSubmit(text, spy)(event)
       expect(spy.calledOnce).to.be.true
     })
+
+    describe("and the callback", () => {
+      it("receives three arguments", () => {
+        expect(spy.args[0].length).to.equal(3)
+      })
+    }) 
+
   })
 
   describe("#processWordCount", () => {
-    it.only("invokes two callbacks", () => {
-      const spy = sinon.spy()
-      const wordCount = {}
-      processWordCount(wordCount, spy, spy)
-      expect(spy.calledTwice).to.be.true
+    const wordCount = {}
+    const spy1 = sinon.spy()
+    const spy2 = sinon.spy()
+
+    processWordCount(wordCount, spy1, spy2)
+    it("invokes two callbacks", () => {
+      expect(spy1.calledOnce).to.be.true
+      expect(spy2.calledOnce).to.be.true
     })
 
+    describe("the first callback", () => {
+      it("receives one argument", () => {
+        expect(spy1.args[0].length).to.equal(1)
+      })
+    }) 
+
+    describe("the second callback", () => {
+      it("receives two arguments", () => {
+        expect(spy2.args[0].length).to.equal(2)
+      })
+    }) 
+  })
+
+  describe("", () => {
     it("adds children to the .word-count parent", () => {
       expect(wordCountArea.children.length).to.equal(0)
       handleTextSubmit(text)(event)
