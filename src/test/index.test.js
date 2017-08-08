@@ -5,7 +5,8 @@ import * as fns from "../index"
 describe("Word watch functions", () => {
   const {
     handleTextSubmit,
-    processWordCount
+    processWordCount,
+    clearChildren
   } = fns
 
   const text = { value: "hello you me me you you" }
@@ -16,7 +17,7 @@ describe("Word watch functions", () => {
     text.value = "hello you me me you you"
   })
 
-  describe.only("#handleTextSubmit", () => {
+  describe("#handleTextSubmit", () => {
     const spy = sinon.spy()
     handleTextSubmit(text, spy)(event)
 
@@ -28,8 +29,7 @@ describe("Word watch functions", () => {
       it("receives three arguments", () => {
         expect(spy.args[0].length).to.equal(3)
       })
-    }) 
-
+    })
   })
 
   describe("#processWordCount", () => {
@@ -47,13 +47,27 @@ describe("Word watch functions", () => {
       it("receives one argument", () => {
         expect(spy1.args[0].length).to.equal(1)
       })
-    }) 
+    })
 
     describe("the second callback", () => {
       it("receives two arguments", () => {
         expect(spy2.args[0].length).to.equal(2)
       })
-    }) 
+    })
+  })
+
+  describe.only("#clearChildren", () => {
+    it("removes existing child nodes from a parent node", () => {
+      const container = document.querySelector(".word-count")
+      for (let i = 0; i < 3; i++) {
+        const para = document.createElement("p")
+        container.appendChild(para)
+      }
+
+      expect(container.children.length).to.equal(3)
+      clearChildren(container)
+      expect(container.children.length).to.equal(0)
+    })
   })
 
   describe("", () => {

@@ -14,7 +14,7 @@ export function handleTextSubmit (textArea, callback) {
   return event => {
     const wordCount = wordCountFor(textArea.value)
     textArea.value = ""
-    callback(wordCount, clearWords, addWords)
+    callback(wordCount, clearChildren, addWords)
   }
 }
 
@@ -24,7 +24,7 @@ export function processWordCount (wordCount, callback1, callback2) {
   callback2(container, wordCount)
 }
 
-export function clearWords(node) {
+export function clearChildren(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.lastChild)
   }
