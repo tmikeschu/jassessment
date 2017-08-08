@@ -101,8 +101,3 @@ all count toward the count (3) of 'ciabatta'.
 
 * [Word Watch API](https://github.com/tmikeschu/wordwatch_api)
 
-### 5
-For stories 1 and 2,
-words should be compared case insensitive.
-For example, ciabatta and Ciabatta and CIABATTA all count toward the count of ciabatta.
-
