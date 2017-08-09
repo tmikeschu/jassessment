@@ -21,7 +21,7 @@ export function handleTextSubmit (textArea, callback) {
 export function processWordCount (wordCount, callback1, callback2) {
   const container = document.querySelector(".word-count")
   callback1(container)
-  callback2(container, wordCount)
+  callback2(container, wordCount, addWord)
 }
 
 export function clearChildren(node) {
@@ -30,9 +30,9 @@ export function clearChildren(node) {
   }
 }
 
-export function addWords(container, wordCount) {
+export function addWords(container, wordCount, iterator) {
   const words = Object.keys(wordCount)
-  words.forEach(addWord(container, wordCount))
+  words.forEach(iterator(container, wordCount))
 }
 
 export function addWord(container, wordCount) {

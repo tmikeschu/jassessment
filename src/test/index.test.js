@@ -6,7 +6,8 @@ describe("Word watch functions", () => {
   const {
     handleTextSubmit,
     processWordCount,
-    clearChildren
+    clearChildren,
+    addWords,
   } = fns
 
   const text = { value: "hello you me me you you" }
@@ -56,7 +57,7 @@ describe("Word watch functions", () => {
     })
   })
 
-  describe.only("#clearChildren", () => {
+  describe("#clearChildren", () => {
     it("removes existing child nodes from a parent node", () => {
       const container = document.querySelector(".word-count")
       for (let i = 0; i < 3; i++) {
@@ -70,13 +71,21 @@ describe("Word watch functions", () => {
     })
   })
 
-  describe("", () => {
-    it("adds children to the .word-count parent", () => {
-      expect(wordCountArea.children.length).to.equal(0)
-      handleTextSubmit(text)(event)
-      expect(wordCountArea.children.length).to.equal(3)
+  describe("#addWords", () => {
+    it.only("calls an interator for each element in the word count", () => {
+      const spy = (x,y) => sinon.spy()
+      const wordCount = { hello: 1 }
+      addWords(wordCountArea, wordCount, spy)
+      expect(spy().calledOnce).to.be.true
     })
 
+  })
+
+  describe("#addWord", () => {
+    it("adds", () => {
+    })
+  })
+  describe("", () => {
     it("adds paragraph elements", () => {
       handleTextSubmit(text)(event)
       const tags = Array.from(wordCountArea.children).map(x => x.nodeName)
