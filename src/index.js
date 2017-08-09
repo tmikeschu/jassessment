@@ -68,7 +68,6 @@ export function checkEnter (handleTextSubmit, text, callback) {
   return event => {
     if (event.keyCode === 13) {
       handleTextSubmit(text, callback)(event)
-      return false
     }
   }
 }

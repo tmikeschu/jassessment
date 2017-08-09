@@ -8,6 +8,9 @@ describe("Word watch functions", () => {
     processWordCount,
     clearChildren,
     addWords,
+    addWord,
+    getTopWord,
+    checkEnter
   } = fns
 
   const text = { value: "hello you me me you you" }
@@ -52,7 +55,7 @@ describe("Word watch functions", () => {
 
     describe("the second callback", () => {
       it("receives two arguments", () => {
-        expect(spy2.args[0].length).to.equal(2)
+        expect(spy2.args[0].length).to.equal(3)
       })
     })
   })
@@ -71,64 +74,125 @@ describe("Word watch functions", () => {
     })
   })
 
-  describe("#addWords", () => {
-    it.only("calls an interator for each element in the word count", () => {
-      const spy = (x,y) => sinon.spy()
-      const wordCount = { hello: 1 }
-      addWords(wordCountArea, wordCount, spy)
-      expect(spy().calledOnce).to.be.true
-    })
+  const wordCount = { hello: 1, you: 2 }
+  const words = Object.keys(wordCount)
 
+  describe("#addWords", () => {
+    it("calls an interator for each element in the word count", () => {
+      const stub = sinon.stub()
+      const spy = sinon.spy()
+      stub.withArgs(wordCountArea, wordCount).returns(spy)
+      addWords(wordCountArea, wordCount, stub)
+
+      words.forEach(word => expect(spy.calledWith(word)).to.be.true)
+      expect(spy.callCount).to.equal(words.length)
+    })
   })
 
   describe("#addWord", () => {
-    it("adds", () => {
+    const result = addWord(wordCountArea, wordCount)    
+
+    it("returns a function that takes one argument", () => {
+      expect(typeof(result)).to.equal("function")
+      expect(result.length).to.equal(1)
+    })
+
+    it("and the return function appends a word and its count to the DOM", () => {
+      expect(wordCountArea.children.length).to.equal(0)
+      result("hello")
+      expect(wordCountArea.children.length).to.equal(1)
     })
   })
-  describe("", () => {
-    it("adds paragraph elements", () => {
-      handleTextSubmit(text)(event)
-      const tags = Array.from(wordCountArea.children).map(x => x.nodeName)
-      const allPTags = tags.every(x => x === "P")
-      expect(allPTags).to.be.true
+
+  describe("#getTopWord", async () => {
+    const fakeAxios = {
+      get: sinon.stub().returns({ data: { word: { hello: 1 } } })
+    }
+    const result = await getTopWord(fakeAxios)
+
+    it("calls a GET request to a URL for a service object", () => {
+      const url = "https://wordwatch-api.herokuapp.com/api/v1/top_word"
+      expect(fakeAxios.get.withArgs(url).calledOnce).to.be.true
     })
 
-    it("Adds font size em relative to count", () => {
-      handleTextSubmit(text)(event)
-      const sizes = Array.from(wordCountArea.children)
-        .reduce((acc, el) => {
-          acc[el.name] = el.style.fontSize
-          return acc
-        }, {})
-      expect(sizes["hello"]).to.equal("1em")
-      expect(sizes["me"]).to.equal("2em")
-      expect(sizes["you"]).to.equal("3em")
-    })
-
-    it("Only adds one paragraph element per word", () => {
-      handleTextSubmit(text)(event)
-      const counts = Array.from(wordCountArea.children)
-        .reduce((acc, el) => {
-          acc[el.name] = (acc[el.name] || 0) + 1
-          return acc
-        }, {})
-      expect(counts["hello"]).to.equal(1)
-      expect(counts["me"]).to.equal(1)
-      expect(counts["you"]).to.equal(1)
-    })
-
-    it("Only adds one paragraph element per word, case insensitive", () => {
-      const caseCrazyText = { value: "me Me YoU yOU HELLO" }
-      handleTextSubmit(caseCrazyText)(event)
-      const counts = Array.from(wordCountArea.children)
-        .reduce((acc, el) => {
-          acc[el.name] = (acc[el.name] || 0) + 1
-          return acc
-        }, {})
-      expect(counts["hello"]).to.equal(1)
-      expect(counts["me"]).to.equal(1)
-      expect(counts["you"]).to.equal(1)
+    it("returns an object with a word pointing to its count", () => {
+      expect(result).to.eql({ hello: 1 })
     })
   })
+
+  describe("#checkEnter", () => {
+    const stub = sinon.stub()
+    const spy = sinon.spy()
+    stub.withArgs(text, spy).returns(spy)
+    const result = checkEnter(stub, text, spy)    
+
+    it("returns a function that takes one argument", () => {
+      expect(typeof(result)).to.equal("function")
+      expect(result.length).to.equal(1)
+    })
+
+    it("and the return function calls another function if the keycode is 13", () => {
+      const fakeEnterEvent = { keyCode: 13 }
+      result(fakeEnterEvent)
+      expect(stub.called).to.be.true
+      stub.reset()
+    })
+
+    it("and the return function calls nothing if the keycode is not 13", () => {
+      const fakeEnterEvent = { keyCode: 10 }
+      result(fakeEnterEvent)
+      expect(stub.called).to.be.false
+    })
+  })
+
+  // describe("#addWord", () => {
+  //   it("adds", () => {
+  //   })
+  // })
+  // describe("", () => {
+  //   it("adds paragraph elements", () => {
+  //     handleTextSubmit(text)(event)
+  //     const tags = Array.from(wordCountArea.children).map(x => x.nodeName)
+  //     const allPTags = tags.every(x => x === "P")
+  //     expect(allPTags).to.be.true
+  //   })
+
+  //   it("Adds font size em relative to count", () => {
+  //     handleTextSubmit(text)(event)
+  //     const sizes = Array.from(wordCountArea.children)
+  //       .reduce((acc, el) => {
+  //         acc[el.name] = el.style.fontSize
+  //         return acc
+  //       }, {})
+  //     expect(sizes["hello"]).to.equal("1em")
+  //     expect(sizes["me"]).to.equal("2em")
+  //     expect(sizes["you"]).to.equal("3em")
+  //   })
+
+  //   it("Only adds one paragraph element per word", () => {
+  //     handleTextSubmit(text)(event)
+  //     const counts = Array.from(wordCountArea.children)
+  //       .reduce((acc, el) => {
+  //         acc[el.name] = (acc[el.name] || 0) + 1
+  //         return acc
+  //       }, {})
+  //     expect(counts["hello"]).to.equal(1)
+  //     expect(counts["me"]).to.equal(1)
+  //     expect(counts["you"]).to.equal(1)
+  //   })
+
+  //   it("Only adds one paragraph element per word, case insensitive", () => {
+  //     const caseCrazyText = { value: "me Me YoU yOU HELLO" }
+  //     handleTextSubmit(caseCrazyText)(event)
+  //     const counts = Array.from(wordCountArea.children)
+  //       .reduce((acc, el) => {
+  //         acc[el.name] = (acc[el.name] || 0) + 1
+  //         return acc
+  //       }, {})
+  //     expect(counts["hello"]).to.equal(1)
+  //     expect(counts["me"]).to.equal(1)
+  //     expect(counts["you"]).to.equal(1)
+  //   })
+  // })
 })
 
