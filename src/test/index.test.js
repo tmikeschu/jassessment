@@ -92,6 +92,8 @@ describe("Word watch functions", () => {
   describe("#addWord", () => {
     const result = addWord(wordCountArea, wordCount)    
 
+    afterEach(() => clearChildren(wordCountArea))
+
     it("returns a function that takes one argument", () => {
       expect(typeof(result)).to.equal("function")
       expect(result.length).to.equal(1)
@@ -101,6 +103,23 @@ describe("Word watch functions", () => {
       expect(wordCountArea.children.length).to.equal(0)
       result("hello")
       expect(wordCountArea.children.length).to.equal(1)
+    })
+    
+    it("as a paragraph element", () => {
+      result("hello")
+      const tags = Array.from(wordCountArea.children).map(x => x.nodeName)
+      expect(wordCountArea.firstChild.nodeName).to.equal("P")
+    })
+
+    it("Adds font size em relative to count", () => {
+      words.forEach(word => result(word))
+      const sizes = Array.from(wordCountArea.children)
+        .reduce((acc, el) => {
+          acc[el.name] = el.style.fontSize
+          return acc
+        }, {})
+      expect(sizes["hello"]).to.equal("1em")
+      expect(sizes["you"]).to.equal("2em")
     })
   })
 
@@ -145,18 +164,7 @@ describe("Word watch functions", () => {
     })
   })
 
-  // describe("#addWord", () => {
-  //   it("adds", () => {
-  //   })
-  // })
   // describe("", () => {
-  //   it("adds paragraph elements", () => {
-  //     handleTextSubmit(text)(event)
-  //     const tags = Array.from(wordCountArea.children).map(x => x.nodeName)
-  //     const allPTags = tags.every(x => x === "P")
-  //     expect(allPTags).to.be.true
-  //   })
-
   //   it("Adds font size em relative to count", () => {
   //     handleTextSubmit(text)(event)
   //     const sizes = Array.from(wordCountArea.children)
