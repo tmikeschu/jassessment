@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 export function handleTextSubmit (textArea, callback) {
   return event => {
-    const wordCount = wordCountFor(textArea.value)
+    const wordCount = wordCountFor(textArea.value, postWord)
     textArea.value = ""
     callback(wordCount, clearChildren, addWords)
   }
@@ -74,12 +74,23 @@ export function checkEnter (handleTextSubmit, text, callback) {
   }
 }
 
-export function wordCountFor (text) {
+export function wordCountFor (text, postWord) {
   const markers = /[^a-z']/i
   return text.split(markers).filter(x => x)
     .reduce((acc, el) => {
+      postWord(axios, el.toLowerCase())
       acc[el.toLowerCase()] = (acc[el.toLowerCase()] || 0) + 1
       return acc
     }, {})
 }
 
+export async function postWord (axios, word) {
+  const url = "https://wordwatch-api.herokuapp.com/api/v1/words"
+  const body = { word: { value: word } }
+  try {
+    await axios.post(url, body)
+    return true
+  } catch(error) {
+    console.error(error)
+  }
+}

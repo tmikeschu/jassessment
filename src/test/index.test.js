@@ -1,6 +1,7 @@
 import { expect } from "chai"
 import sinon from "sinon"
 import * as functions from "../index"
+import axios from "axios"
 
 describe("Word watch functions", () => {
   const {
@@ -12,7 +13,8 @@ describe("Word watch functions", () => {
     getTopWord,
     addTopWord,
     checkEnter,
-    wordCountFor
+    wordCountFor,
+    postWord
   } = functions
 
   const text = { value: "hello you me me you you" }
@@ -143,6 +145,19 @@ describe("Word watch functions", () => {
     })
   })
 
+  describe("#postWord", async () => {
+    const fakeAxios = {
+      post: sinon.stub().returns({ data: { word: { hello: 1 } } })
+    }
+    const result = await postWord(fakeAxios, "hello")
+
+    it("calls a POST request to a URL for a service object", () => {
+      const url = "https://wordwatch-api.herokuapp.com/api/v1/words"
+      const body = { word: { value: "hello" } }
+      expect(fakeAxios.post.withArgs(url, body).calledOnce).to.be.true
+    })
+  })
+
   describe("#addTopWord", () => {
     it("appends a word and its count to the top word section", () => {
       const word = { me: 3 }
@@ -180,14 +195,22 @@ describe("Word watch functions", () => {
 
   describe("#wordCountFor", () => {
     it("returns an word count object for a string of text", () => {
-      const result = wordCountFor(text.value) 
+      const result = wordCountFor(text.value, () => {}) 
       expect(result).to.eql({ hello: 1, you: 3, me: 2})
     })
 
     it("is case insensitive", () => {
       const caseCrazyText = { value: "me Me YoU yOU HELLO" }
-      const result = wordCountFor(caseCrazyText.value) 
+      const result = wordCountFor(caseCrazyText.value, () => {}) 
       expect(result).to.eql({ hello: 1, you: 2, me: 2})
+    })
+
+    it("invokes a callback for each word", () => {
+      const spy = sinon.spy()
+      wordCountFor(text.value, spy)
+      expect(spy.withArgs(axios, "hello").callCount).to.equal(1)
+      expect(spy.withArgs(axios, "me").callCount).to.equal(2)
+      expect(spy.withArgs(axios, "you").callCount).to.equal(3)
     })
   })
 })

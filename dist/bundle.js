@@ -948,13 +948,14 @@ module.exports = __webpack_require__(29);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["handleTextSubmit"] = handleTextSubmit;
 /* harmony export (immutable) */ __webpack_exports__["processWordCount"] = processWordCount;
-/* harmony export (immutable) */ __webpack_exports__["clearWords"] = clearWords;
+/* harmony export (immutable) */ __webpack_exports__["clearChildren"] = clearChildren;
 /* harmony export (immutable) */ __webpack_exports__["addWords"] = addWords;
 /* harmony export (immutable) */ __webpack_exports__["addWord"] = addWord;
 /* harmony export (immutable) */ __webpack_exports__["getTopWord"] = getTopWord;
 /* harmony export (immutable) */ __webpack_exports__["addTopWord"] = addTopWord;
 /* harmony export (immutable) */ __webpack_exports__["checkEnter"] = checkEnter;
 /* harmony export (immutable) */ __webpack_exports__["wordCountFor"] = wordCountFor;
+/* harmony export (immutable) */ __webpack_exports__["postWord"] = postWord;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
@@ -963,41 +964,43 @@ document.addEventListener("DOMContentLoaded", async () => {
   const textSubmitButton = document.querySelector(".text-submission button")
   const textArea = document.querySelector(".text-submission textarea")
 
-  textSubmitButton.addEventListener("click", handleTextSubmit(textArea))
-  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, 10))
+  textSubmitButton.addEventListener("click", handleTextSubmit(textArea, processWordCount))
+  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, processWordCount))
   const word = await getTopWord(__WEBPACK_IMPORTED_MODULE_0_axios___default.a)
   addTopWord(word)
 })
 
-function handleTextSubmit (textArea) {
+function handleTextSubmit (textArea, callback) {
   return event => {
-    const wordCount = wordCountFor(textArea.value)
+    const wordCount = wordCountFor(textArea.value, postWord)
     textArea.value = ""
-    processWordCount(wordCount)
+    callback(wordCount, clearChildren, addWords)
   }
 }
 
-function processWordCount (wordCount) {
+function processWordCount (wordCount, callback1, callback2) {
   const container = document.querySelector(".word-count")
-  clearWords(container)
-  addWords(container, wordCount)
+  callback1(container)
+  callback2(container, wordCount, addWord)
 }
 
-function clearWords(node) {
+function clearChildren(node) {
   while (node.hasChildNodes()) {
     node.removeChild(node.lastChild)
   }
 }
 
-function addWords(container, wordCount) {
+function addWords(container, wordCount, iterator) {
   const words = Object.keys(wordCount)
-  words.forEach(addWord(container, wordCount))
+  words.forEach(iterator(container, wordCount))
 }
 
 function addWord(container, wordCount) {
   return word => {
     const para = document.createElement("p")
-    para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
+    const count = wordCount[word]
+    const times = "time" + (count === 1 ? "" : "s")
+    para.innerHTML = `${word}<span>${wordCount[word]} ${times}</span>`
     para.style.fontSize = `${wordCount[word]}em`
     para.tabIndex = 0
     para.name = word
@@ -1023,24 +1026,34 @@ function addTopWord (wordAndCount) {
   heading.innerHTML = `Top Word: ${formattedWordCount}`
 }
 
-function checkEnter (handleTextSubmit, text) {
+function checkEnter (handleTextSubmit, text, callback) {
   return event => {
     if (event.keyCode === 13) {
-      handleTextSubmit(text)(event)
-      return false
+      handleTextSubmit(text, callback)(event)
     }
   }
 }
 
-function wordCountFor (text) {
+function wordCountFor (text, postWord) {
   const markers = /[^a-z']/i
   return text.split(markers).filter(x => x)
     .reduce((acc, el) => {
+      postWord(__WEBPACK_IMPORTED_MODULE_0_axios___default.a, el.toLowerCase())
       acc[el.toLowerCase()] = (acc[el.toLowerCase()] || 0) + 1
       return acc
     }, {})
 }
 
+async function postWord (axios, word) {
+  const url = "https://wordwatch-api.herokuapp.com/api/v1/words"
+  const body = { word: { value: word } }
+  try {
+    await axios.post(url, body)
+    return true
+  } catch(error) {
+    console.error(error)
+  }
+}
 
 
 /***/ }),
