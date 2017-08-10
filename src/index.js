@@ -38,7 +38,9 @@ export function addWords(container, wordCount, iterator) {
 export function addWord(container, wordCount) {
   return word => {
     const para = document.createElement("p")
-    para.innerHTML = `${word}<span>${wordCount[word]} times</span>`
+    const count = wordCount[word]
+    const times = "time" + (count === 1 ? "" : "s")
+    para.innerHTML = `${word}<span>${wordCount[word]} ${times}</span>`
     para.style.fontSize = `${wordCount[word]}em`
     para.tabIndex = 0
     para.name = word

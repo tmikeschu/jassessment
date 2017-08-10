@@ -110,6 +110,8 @@ describe("Word watch functions", () => {
       result("hello")
       const tags = Array.from(wordCountArea.children).map(x => x.nodeName)
       expect(wordCountArea.firstChild.nodeName).to.equal("P")
+      expect(wordCountArea.firstChild.innerHTML).to
+        .equal("hello<span>1 time</span>")
     })
 
     it("Adds font size em relative to count", () => {
