@@ -10,6 +10,7 @@ describe("Word watch functions", () => {
     addWords,
     addWord,
     getTopWord,
+    addTopWord,
     checkEnter
   } = fns
 
@@ -139,6 +140,16 @@ describe("Word watch functions", () => {
     })
   })
 
+  describe("#addTopWord", () => {
+    it("appends a word and its count to the top word section", () => {
+      const word = { me: 3 }
+      const topWordHeader = document.querySelector(".top-word h3")
+      expect(topWordHeader.innerHTML).to.equal("Top Word: ")
+      addTopWord(word)
+      expect(topWordHeader.innerHTML).to.equal("Top Word: me (3)")
+    })
+  })
+
   describe("#checkEnter", () => {
     const stub = sinon.stub()
     const spy = sinon.spy()
@@ -165,30 +176,6 @@ describe("Word watch functions", () => {
   })
 
   // describe("", () => {
-  //   it("Adds font size em relative to count", () => {
-  //     handleTextSubmit(text)(event)
-  //     const sizes = Array.from(wordCountArea.children)
-  //       .reduce((acc, el) => {
-  //         acc[el.name] = el.style.fontSize
-  //         return acc
-  //       }, {})
-  //     expect(sizes["hello"]).to.equal("1em")
-  //     expect(sizes["me"]).to.equal("2em")
-  //     expect(sizes["you"]).to.equal("3em")
-  //   })
-
-  //   it("Only adds one paragraph element per word", () => {
-  //     handleTextSubmit(text)(event)
-  //     const counts = Array.from(wordCountArea.children)
-  //       .reduce((acc, el) => {
-  //         acc[el.name] = (acc[el.name] || 0) + 1
-  //         return acc
-  //       }, {})
-  //     expect(counts["hello"]).to.equal(1)
-  //     expect(counts["me"]).to.equal(1)
-  //     expect(counts["you"]).to.equal(1)
-  //   })
-
   //   it("Only adds one paragraph element per word, case insensitive", () => {
   //     const caseCrazyText = { value: "me Me YoU yOU HELLO" }
   //     handleTextSubmit(caseCrazyText)(event)
