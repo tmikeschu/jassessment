@@ -1,6 +1,6 @@
 import { expect } from "chai"
 import sinon from "sinon"
-import * as fns from "../index"
+import * as functions from "../index"
 
 describe("Word watch functions", () => {
   const {
@@ -11,8 +11,9 @@ describe("Word watch functions", () => {
     addWord,
     getTopWord,
     addTopWord,
-    checkEnter
-  } = fns
+    checkEnter,
+    wordCountFor
+  } = functions
 
   const text = { value: "hello you me me you you" }
   const event = {}
@@ -177,19 +178,17 @@ describe("Word watch functions", () => {
     })
   })
 
-  // describe("", () => {
-  //   it("Only adds one paragraph element per word, case insensitive", () => {
-  //     const caseCrazyText = { value: "me Me YoU yOU HELLO" }
-  //     handleTextSubmit(caseCrazyText)(event)
-  //     const counts = Array.from(wordCountArea.children)
-  //       .reduce((acc, el) => {
-  //         acc[el.name] = (acc[el.name] || 0) + 1
-  //         return acc
-  //       }, {})
-  //     expect(counts["hello"]).to.equal(1)
-  //     expect(counts["me"]).to.equal(1)
-  //     expect(counts["you"]).to.equal(1)
-  //   })
-  // })
+  describe("#wordCountFor", () => {
+    it("returns an word count object for a string of text", () => {
+      const result = wordCountFor(text.value) 
+      expect(result).to.eql({ hello: 1, you: 3, me: 2})
+    })
+
+    it("is case insensitive", () => {
+      const caseCrazyText = { value: "me Me YoU yOU HELLO" }
+      const result = wordCountFor(caseCrazyText.value) 
+      expect(result).to.eql({ hello: 1, you: 2, me: 2})
+    })
+  })
 })
 
