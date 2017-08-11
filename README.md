@@ -29,6 +29,12 @@ Open your app on a localhost server:
 npm start
 ```
 
+And navigate to:
+
+```
+http://localhost:5000/dist/index.html
+```
+
 *Note* make sure to keep both `npm run build` and `npm start` running during your development.
 
 To run the tests:
