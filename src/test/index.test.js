@@ -162,9 +162,9 @@ describe("Word watch functions", () => {
     it("appends a word and its count to the top word section", () => {
       const word = { me: 3 }
       const topWordHeader = document.querySelector(".top-word h3")
-      expect(topWordHeader.innerHTML).to.equal("Top Word: ")
+      expect(topWordHeader.innerHTML).to.equal("Top word from Word Watch API: ")
       addTopWord(word)
-      expect(topWordHeader.innerHTML).to.equal("Top Word: me (3)")
+      expect(topWordHeader.innerHTML).to.equal("Top word from Word Watch API: me (3)")
     })
   })
 

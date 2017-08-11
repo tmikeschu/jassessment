@@ -1023,7 +1023,7 @@ function addTopWord (wordAndCount) {
   const heading = document.querySelector(".top-word h3")
   const word = Object.keys(wordAndCount)[0]
   const formattedWordCount = `${word} (${wordAndCount[word]})`
-  heading.innerHTML = `Top Word: ${formattedWordCount}`
+  heading.innerHTML = `Top word from Word Watch API: ${formattedWordCount}`
 }
 
 function checkEnter (handleTextSubmit, text, callback) {
