@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha-webpack -r babel-polyfill -r src/test/setup.js --webpack-config webpack.config-test.babel.js \"src/**/*.test.js\"",
-    "scss-compile": "node-sass -rw src/stylesheets/styles.scss -o src/stylesheets/css",
     "build": "webpack --watch",
     "start": "asdf"
   },
