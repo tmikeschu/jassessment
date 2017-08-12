@@ -964,15 +964,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const textSubmitButton = document.querySelector(".text-submission button")
   const textArea = document.querySelector(".text-submission textarea")
 
-  textSubmitButton.addEventListener("click", handleTextSubmit(textArea, processWordCount))
-  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, processWordCount))
+  textSubmitButton.addEventListener("click", handleTextSubmit(textArea, processWordCount, __WEBPACK_IMPORTED_MODULE_0_axios___default.a))
+  textArea
+    .addEventListener("keyup", checkEnter(handleTextSubmit, textArea, processWordCount))
   const word = await getTopWord(__WEBPACK_IMPORTED_MODULE_0_axios___default.a)
   addTopWord(word)
 })
 
-function handleTextSubmit (textArea, callback) {
+function handleTextSubmit (textArea, callback, service = __WEBPACK_IMPORTED_MODULE_0_axios___default.a) {
   return event => {
-    const wordCount = wordCountFor(textArea.value, postWord)
+    const wordCount = wordCountFor(textArea.value, postWord, service)
     textArea.value = ""
     callback(wordCount, clearChildren, addWords)
   }
@@ -1034,11 +1035,11 @@ function checkEnter (handleTextSubmit, text, callback) {
   }
 }
 
-function wordCountFor (text, postWord) {
+function wordCountFor (text, postWord, service = __WEBPACK_IMPORTED_MODULE_0_axios___default.a) {
   const markers = /[^a-z']/i
   return text.split(markers).filter(x => x)
     .reduce((acc, el) => {
-      postWord(__WEBPACK_IMPORTED_MODULE_0_axios___default.a, el.toLowerCase())
+      postWord(service, el.toLowerCase())
       acc[el.toLowerCase()] = (acc[el.toLowerCase()] || 0) + 1
       return acc
     }, {})
