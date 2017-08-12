@@ -4,15 +4,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const textSubmitButton = document.querySelector(".text-submission button")
   const textArea = document.querySelector(".text-submission textarea")
 
-  textSubmitButton.addEventListener("click", handleTextSubmit(textArea, processWordCount))
-  textArea.addEventListener("keyup", checkEnter(handleTextSubmit, textArea, processWordCount))
+  textSubmitButton.addEventListener("click", handleTextSubmit(textArea, processWordCount, axios))
+  textArea
+    .addEventListener("keyup", checkEnter(handleTextSubmit, textArea, processWordCount))
   const word = await getTopWord(axios)
   addTopWord(word)
 })
 
-export function handleTextSubmit (textArea, callback) {
+export function handleTextSubmit (textArea, callback, service = axios) {
   return event => {
-    const wordCount = wordCountFor(textArea.value, postWord)
+    const wordCount = wordCountFor(textArea.value, postWord, service)
     textArea.value = ""
     callback(wordCount, clearChildren, addWords)
   }
@@ -74,11 +75,11 @@ export function checkEnter (handleTextSubmit, text, callback) {
   }
 }
 
-export function wordCountFor (text, postWord) {
+export function wordCountFor (text, postWord, service = axios) {
   const markers = /[^a-z']/i
   return text.split(markers).filter(x => x)
     .reduce((acc, el) => {
-      postWord(axios, el.toLowerCase())
+      postWord(service, el.toLowerCase())
       acc[el.toLowerCase()] = (acc[el.toLowerCase()] || 0) + 1
       return acc
     }, {})
