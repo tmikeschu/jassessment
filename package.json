@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha-webpack -r babel-polyfill -r src/test/setup.js --webpack-config webpack.config-test.babel.js \"src/**/*.test.js\"",
     "build": "webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server --hot --inline"
   },
   "devDependencies": {
     "asdf": "^1.1.4",
