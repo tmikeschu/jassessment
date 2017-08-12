@@ -22,5 +22,9 @@ module.exports = {
         loader: 'sass-loader'
       }]
     }]
+  },
+  devServer: {
+    contentBase: "./dist",
+    hot: true
   }
 };
