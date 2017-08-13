@@ -1,6 +1,6 @@
 # Word Watch 👀
 
----
+> Seeing is believing...
 
 ## Environment Setup
 
